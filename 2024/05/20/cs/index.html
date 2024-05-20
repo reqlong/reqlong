@@ -1,0 +1,425 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>cs | Qlong</title><meta name="author" content="qlong"><meta name="copyright" content="qlong"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="cs"><meta name="application-name" content="cs"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="cs"><meta property="og:url" content="http://example.com/2024/05/20/cs/index.html"><meta property="og:site_name" content="Qlong"><meta property="og:description" content="【VMware虚拟化】ESXi常用命令总结（文字版本）目录一、ESXi的shell命令 二、esxcli命令 一、ESXi的shell命令1、services.sh 是 Linux服务通常使用services命令管理，管理ESXi服务是通过使用services.sh命令实现的。Services.sh"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta property="article:author" content="qlong"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta name="description" content="【VMware虚拟化】ESXi常用命令总结（文字版本）目录一、ESXi的shell命令 二、esxcli命令 一、ESXi的shell命令1、services.sh 是 Linux服务通常使用services命令管理，管理ESXi服务是通过使用services.sh命令实现的。Services.sh"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2024/05/20/cs/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: qlong","link":"链接: ","source":"来源: Qlong","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Qlong',
+  title: 'cs',
+  postAI: '',
+  pageFillDescription: '【VMware虚拟化】ESXi常用命令总结（文字版本）, 目录, 一、ESXi的shell命令, 二、esxcli命令虚拟化常用命令总结文字版本目录一的命令二命令一的命令是服务通常使用命令管理管理服务是通过使用命令实现的命令支持的参数包括通过这三个参数可以停止启动或重启所有的服务重启所有的服务执行位于目录下的脚本可以启动或停止对应的服务如果只想重启服务可以运行命令而将重启所有服务重启主机上的查看所有服务的运行状态是我们都熟悉命令的用法及功能命令更进一步允许使用的堆栈通过特定的接口发送数据包这意味着你可以通过网络而非管理网络发送包通过接口向发送请求大写的组合使用命令可以确认主机与特定之间的网络连通性尽管命令通过确认连通性但有时我们想确认是否可以访问特定的端口例如的端口是测试是否能够访问的端口端口检查端口不通端口通如果需要通过命令行管理数据卷以及虚拟磁盘那么命令就派上用场了使用命令可以创建克隆扩展重命名并删除文件除了虚拟磁盘选项你还可以使用命令创建扩展增大回收文件系统的数据块将克隆为命令可以使用对主机进行性能监控以及故障诊断时很少有工具能够提供和同样多的信息除提供和命令类似的功能外还可以收集很多专有的指标包括中断内存网络磁盘适配器磁盘设备以及电源管理需要进一步监控存储的性能时命令就能够派上用场了命令能够帮助你收集与虚拟机磁盘负载相关的性能数据进行容量规划或者迁移后端存储时使用命令收集到的数据可谓价值连城是构建在进程之上的命令空间允许最终用户调用几乎所有的提供了一些子命令管理不同的虚拟基础设施而且和相比更容易使用登录到主机时直接用户控制台接口提供了基于菜单的主机管理功能提供了很多不同的功能比如密码维护网络维护有时你可能只能通过访问主机但幸运的是在命令行下执行命令就可以进入基于菜单的系统图形系统曾经想过收集主机所有的支持及日志信息吗命令恰好能够满足你的要求如果之前与的技术支持热线联系过那么很可能用过这个命令二命令命令用途广泛我们不能简单地将其归为单个命令包括许多不同的命名空间允许你控制提供的几乎所有设备下面列出了使用最频繁肯定不是所有的命名空间想获取主机的硬件及配置信息时硬件命名空间就能够派上用场了获取信息系列型号以及缓存获取内存信息可用内存以及非一致内存访问命名空间可以被用于监控并管理硬件及软件设置用于启用禁用软件用于设置软硬件适配器的发现以及其他设置用于列出主机上已建立的会话需要监控网络并对如下网络组件进行调整时包括虚拟交换机网络接口防火墙以及物理网卡等网络命名空间就派上用场了列出并修改网卡信息比如名字唤醒网卡以及速度列出有一个活动网络端口的虚拟机的网络信息列出所有虚拟机网络信息检索并管理的标准交换机以及分布式虚拟交换机管理端口包括管理以及网络还可以修改主机的所有栈包括以及路由信息软件命名空间可以用于检索主机已安装的软件及驱动并可以安装新组件列出主机上已经安装的软件及驱动可能是最常用的命令命名空间之一包括了管理连接到的存储的所有信息列出当前存储设备获得存储设备支持的的当前状态通过该命令使你能够控制的高级选项比如设置并管理主机状态将主机设置为维护模式查看并更改高级设置提示使用命令查看非默认设置查看及配置信息的虚拟机命名空间用于列出运行在主机上的虚拟机的各种信息如果需要可以强制关闭这些虚拟机列出已启动的虚拟机的进程信息停止正在运行的虚拟机的进程关闭虚拟机或者强制关闭虚拟机电源的命名空间包括配置并维护的很多命令包括数据存储网络默认域名以及策略配置配置使用的本地存储包括增加删除物理存储并修改自动声明本地主机脱离加入集群命令包括一个称为的命名空间通过使用命名空间你可以获得更多信息列出所有的命令及其提供的功能升级去官网下载对应的补丁包基础信息查看帮助命令重起主机关闭主机显示你的版本查看版本号和号显示所有相关信息显示上的硬件信息查看主机查看信息查看信息查看物理内存信息查看宿主当前时间查看宿主机摘要信息为主机安装更新补丁和驱动列出虚拟机的网路信息列出所有虚拟机查看指定虚拟机状态关闭虚拟机开起虚拟机如果虚拟机强制关机查看虚拟机配置信息主机进入维护模式虚拟要挂起或关机才能执行主机退出维护模式',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-20 17:13:31',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.2.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">Qlong</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">五月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"></span></div></div><h1 class="post-title" itemprop="name headline">cs</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-05-20T09:13:07.000Z" title="发表于 2024-05-20 17:13:07">2024-05-20</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-05-20T09:13:31.559Z" title="更新于 2024-05-20 17:13:31">2024-05-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2024/05/20/cs/"><header><h1 id="CrawlerTitle" itemprop="name headline">cs</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">qlong</span><time itemprop="dateCreated datePublished" datetime="2024-05-20T09:13:07.000Z" title="发表于 2024-05-20 17:13:07">2024-05-20</time><time itemprop="dateCreated datePublished" datetime="2024-05-20T09:13:31.559Z" title="更新于 2024-05-20 17:13:31">2024-05-20</time></header><h2 id="【VMware虚拟化】ESXi常用命令总结（文字版本）"><a href="#【VMware虚拟化】ESXi常用命令总结（文字版本）" class="headerlink" title="【VMware虚拟化】ESXi常用命令总结（文字版本）"></a>【VMware虚拟化】ESXi常用命令总结（文字版本）</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>一、ESXi的shell命令</p>
+<p>二、esxcli命令</p>
+<h4 id="一、ESXi的shell命令"><a href="#一、ESXi的shell命令" class="headerlink" title="一、ESXi的shell命令"></a>一、ESXi的shell命令</h4><p>1、services.sh 是 Linux服务通常使用services命令管理，管理ESXi服务是通过使用services.sh命令实现的。Services.sh命令支持的参数包括stop、start、restart，通过这三个参数可以停止、启动或重启所有的ESXi服务。</p>
+<p>2、services.sh restart ： 重启所有的ESXi服务</p>
+<p>3、&#x2F;etc&#x2F;init.d ： 执行位于&#x2F;etc&#x2F;init.d目录下的脚本可以启动或停止对应的服务。如果只想重启vCenter Server Agent（vpax服务），可以运行&#x2F;etc&#x2F;init.d&#x2F;vpxa restart 命令。而services.sh restart将重启所有服务。</p>
+<p>4、&#x2F;etc&#x2F;init.d&#x2F;vpxa restart ：重启主机上的 vCenter Agent</p>
+<p>5、cat &#x2F;etc&#x2F;chkconfig.db ： 查看所有ESXi服务的运行状态。</p>
+<p>6、vmkping ：是我们都熟悉ping命令的用法及功能。Vmkping命令更进一步，允许使用Vmkernel的IP堆栈通过特定的接口发送ICMP数据包。这意味着你可以通过vMotion网络而非管理网络发送ping包。<br>vmkping –I vmk1 10.10.10.1 ： 通过vmkl接口向10.10.10.1发送ICMP请求 【-I：大写的i】</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170239658-2023986613.png" alt="image-20230831165152225"></p>
+<p>7、nc ：组合使用vmkping、nc命令（netcat），可以确认ESXi主机与特定IP之间的网络连通性。尽管vmkping命令通过ICMP确认连通性，但有时我们想确认是否可以访问特定的TCP端口(例如iSCSI的TCP端口是3260)。<br>nc -z 10.10.10.10 3260 ： 测试是否能够访问10.10.10.10的3260端口<br>nc -z 10.128.0.160 22</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170239294-850736751.png" alt="image-20230831165246178"></p>
+<p>Connection to 10.128.0.160 22 port [tcp&#x2F;ssh] succeeded!</p>
+<p>UDP端口检查<br>nc -uz 10.128.0.160 22 ：UDP端口22不通<br>nc -uz 10.128.16.9 123 ：UDP端口123通<br>Connection to 10.128.16.9 123 port [udp&#x2F;ntp] succeeded!</p>
+<p>1、vmkfstools：如果需要通过命令行管理VMFS数据卷以及虚拟磁盘，那么vmkfstools命令就派上用场了。使用vmkfstools命令可以创建、克隆、扩展、重命名并删除VMDK文件。除了虚拟磁盘选项，你还可以使用vmkfstools命令创建、扩展、增大、回收文件系统的数据块。</p>
+<p>vmkfstools –i test.vmdk testclone.vmdk ：将test.vmdk克隆为testclone.vmdk</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170238952-1544150257.png" alt="image-20230831165314266"></p>
+<p>find命令可以使用】</p>
+<p>2、esxtop ：对ESXi主机进行性能监控以及故障诊断时，很少有工具能够提供和esxtop同样多的信息。除提供和Linux top命令类似的功能外，esxtop还可以收集很多VMware专有的指标，包括中断、内存、网络、磁盘适配器、磁盘设备以及电源管理。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170238618-473940168.png" alt="image-20230831165342761"></p>
+<p>3、vscsiStats ： 需要进一步监控存储I&#x2F;O的性能时，vscsiStats命令就能够派上用场了。vscsiStats命令能够帮助你收集与虚拟机磁盘I&#x2F;O负载相关的性能数据。进行容量规划或者迁移后端存储时，使用vscsiStats命令收集到的数据可谓价值连城。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170238150-1805462576.png" alt="image-20230831165408311"></p>
+<p>4、vim-cmd ：vim-cmd是构建在hostd进程之上的命令空间，允许最终用户调用几乎所有的vSphere API。Vim-cmd提供了一些ESXi子命令管理不同的虚拟基础设施，而且和vimsh相比，更容易使用。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170237677-594008083.png" alt="image-20230831165426510"></p>
+<p>5、dcui ：登录到ESXi主机时，VMware直接用户控制台接口（DCUI）提供了基于菜单的主机管理功能。DCUI提供了很多不同的功能，比如root密码维护、网络维护。有时你可能只能通过SSH访问主机，但幸运的是，在命令行下执行dcui命令就可以进入基于菜单的DCUI系统。【图形系统】</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170237218-769510366.png" alt="image-20230831165444889"></p>
+<p>6、vm-support ：曾经想过收集ESXi主机所有的支持及日志信息吗？Vm-support命令恰好能够满足你的要求。如果之前与VMware的技术支持热线联系过，那么很可能用过这个命令。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170236722-1779827770.png" alt="image-20230831165515517"></p>
+<h4 id="二、esxcli命令"><a href="#二、esxcli命令" class="headerlink" title="二、esxcli命令"></a>二、esxcli命令</h4><p>esxcli命令用途广泛，我们不能简单地将其归为单个命令。esxcli包括许多不同的命名空间，允许你控制ESXi提供的几乎所有设备。下面列出了使用最频繁（肯定不是所有）的命名空间：</p>
+<p>1、esxcli hardware ：想获取ESXi主机的硬件及配置信息时，esxcli硬件命名空间就能够派上用场了。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170236267-172276384.png" alt="image-20230831165544039"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170235806-310187032.png" alt="image-20230831165559982"></p>
+<p>2、esxcli hardware cpu list ：获取CPU信息（系列、型号以及缓存）</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170235380-128917140.png" alt="image-20230831165638016"></p>
+<p>3、esxcli hardware memory get ：获取内存信息（可用内存以及非一致内存访问）</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170234741-618556625.png" alt="image-20230831165703459"></p>
+<p>4、esxcli iscsi ： iscsi命名空间可以被用于监控并管理硬件iSCSI及软件iSCSI设置。</p>
+<p>5、esxcli iscsi software ：用于启用&#x2F;禁用软件iSCSI initiator。</p>
+<p>6、esxcli iscsi adapter ：用于设置软硬件iSCSI适配器的发现、CHAP以及其他设置</p>
+<p>7、esxcli iscsi sessions ：用于列出主机上已建立的iSCSI会话。</p>
+<p>8、esxcli network ：需要监控vSphere网络并对如下网络组件进行调整时，包括虚拟交换机、VMkernel网络接口、防火墙以及物理网卡等，esxcli网络命名空间就派上用场了。</p>
+<p>esxcli network nic list：列出并修改网卡信息，比如名字、唤醒网卡以及速度。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170234403-1302587508.png" alt="image-20230831165728482"></p>
+<p>esxcli network vm list ： 列出有一个活动网络端口的虚拟机的网络信息。【列出所有虚拟机网络信息】</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170234009-1605419366.png" alt="image-20230831165750394"></p>
+<p>esxcli network vswitch ：检索并管理VMware的标准交换机以及分布式虚拟交换机。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170233505-1358199138.png" alt="image-20230831165813481"></p>
+<p>esxcli network ip ：管理VMkernel端口，包括管理、vMotion以及FT网络。还可以修改主机的所有IP栈，包括DNS、IPsec以及路由信息。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170233101-1946107644.png" alt="image-20230831165832716"></p>
+<p>9、esxcli software ： 软件命名空间可以用于检索ESXi主机已安装的软件及驱动并可以安装新组件。</p>
+<p>esxcli software vib list ： 列出ESXi主机上已经安装的软件及驱动。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170232656-316127101.png" alt="image-20230831165929798"></p>
+<p>10、esxcli storage ： 可能是最常用的esxcli命令命名空间之一，包括了管理连接到vSphere的存储的所有信息。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170232275-1055908901.png" alt="image-20230831165948507"></p>
+<p>esxcli storage core device list ：列出当前存储设备</p>
+<p>esxcli storage core device vaai status get ：获得存储设备支持的VAAI的当前状态。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170231883-649680227.png" alt="image-20230831170009965"></p>
+<p>11、esxcli system ： 通过该命令使你能够控制ESXi的高级选项，比如设置syslog并管理主机状态。</p>
+<p>esxcli system maintenanceMode set –enabled yes&#x2F;no ： 将主机设置为维护模式</p>
+<p>查看并更改ESXi高级设置（提示：使用esxcli system settings advanced list ：命令查看非默认设置）</p>
+<p>esxcli system syslog ：查看 Syslog 及配置信息</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170231513-1168918774.png" alt="image-20230831170102762"></p>
+<p>12、esxcli vm ：ESXi的虚拟机命名空间用于列出运行在主机上的虚拟机的各种信息，如果需要可以强制关闭这些虚拟机。</p>
+<p>esxcli vm process list ：列出已启动的虚拟机的进程信息。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170231124-38085454.png" alt="image-20230831170125459"></p>
+<p>esxcli vm process kill ： 停止正在运行的虚拟机的进程，关闭虚拟机或者强制关闭虚拟机电源。</p>
+<p>13、esxcli vsan ：ESXi的VSAN命名空间包括配置并维护VSAN的很多命令，包括数据存储、网络、默认域名以及策略配置。</p>
+<p>esxcli vsan storage ： 配置VSAN使用的本地存储，包括增加、删除物理存储并修改自动声明。</p>
+<p>esxcli vsan cluster ： 本地主机脱离&#x2F;加入VSAN集群。</p>
+<p>14、esxcli esxcli ：esxcli命令包括一个称为esxcli的命名空间，通过使用esxcli命名空间，你可以获得更多信息。</p>
+<p>esxcli esxcli command list ：列出所有的esxcli命令及其提供的功能</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170230594-801651451.png" alt="image-20230831170147989"></p>
+<p>升级esxi：<br>去官网下载对应的补丁zip包：<a target="_blank" rel="noopener" href="https://my.vmware.com/group/vmware/patch#search">https://my.vmware.com/group/vmware/patch#search</a><br>esxcli software vib update -d &#x2F;vmfs&#x2F;volumes&#x2F;data&#x2F;iso&#x2F;ESXi650-201811001.zip</p>
+<p>【基础信息查看】<br>esxcli –help ：帮助命令<br>reboot ：重起主机<br>poweroff ：关闭主机<br>vmware -v ：显示你的esxi版本<br>esxcli system version get ：查看ESXI版本号和build号<br>esxcfg-info -a ：显示所有ESXI相关信息<br>esxcfg-info -w ：显示EXSI上的硬件信息<br>esxcfg-vmknic -l ：查看ESXI主机IP</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/52901/Documents/Blogfile/source/_posts/cs.assets/458378-20230831170229976-1983475381.png" alt="image-20230831170210882"></p>
+<p>esxcli hardware cpu list ：查看CPU信息（Brand,Core Speed）<br>esxcl hardware cpu global get ：查看CPU Cores信息<br>esxcli hardware memory get ：查看物理内存信息<br>esxcli hardware clockget ：查看ESXI宿主当前时间<br>vim-cmd hostsvc&#x2F;hostsummary ：查看宿主机摘要信息<br>esxcli software vib install -d &#x2F;vmfs&#x2F;volumes&#x2F;datastore&#x2F;patches&#x2F;xxx.zip ：为ESXi主机安装更新补丁和驱动<br>esxcli network vm list ：列出虚拟机的网路信息</p>
+<p>vim-cmd vmsvc&#x2F;getallvms ：列出所有虚拟机VMID<br>vim-cmd vmsvc&#x2F;power.getstate VMID ：查看指定VMID虚拟机状态<br>vim-cmd vmsvc&#x2F;power.shutdown VMID ：关闭虚拟机<br>vim-cmd vmsvc&#x2F;power.on VMID ：开起虚拟机<br>vim-cmd vmsvc&#x2F;power.off VMID ：如果虚拟机强制关机<br>vim-cmd vmsvc&#x2F;get.config VMID ：查看虚拟机配置信息<br>vim-cmd hostsvc&#x2F;maintenance_mode_enter ：主机进入维护模式（虚拟要挂起或关机才能执行）<br>vim-cmd hostsvc&#x2F;maintenance_mode_exit ：主机退出维护模式</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">qlong</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2024/05/20/cs/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2024/05/20/cs/')">cs</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2024/05/20/cs/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=cs&amp;url=http://example.com/2024/05/20/cs/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Qlong</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"></div></div></div><div class="post_share"><div class="social-share" data-image="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/05/20/hello-world/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hello World</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90VMware%E8%99%9A%E6%8B%9F%E5%8C%96%E3%80%91ESXi%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93%EF%BC%88%E6%96%87%E5%AD%97%E7%89%88%E6%9C%AC%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">【VMware虚拟化】ESXi常用命令总结（文字版本）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81ESXi%E7%9A%84shell%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.1.</span> <span class="toc-text">一、ESXi的shell命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81esxcli%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.2.</span> <span class="toc-text">二、esxcli命令</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/20/cs/" title="cs">cs</a><time datetime="2024-05-20T09:13:07.000Z" title="发表于 2024-05-20 17:13:07">2024-05-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/05/20/hello-world/" title="Hello World">Hello World</a><time datetime="2024-05-20T03:55:25.339Z" title="发表于 2024-05-20 11:55:25">2024-05-20</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2024 By <a class="footer-bar-link" href="/" title="qlong" target="_blank">qlong</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">0</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.12",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 qlong 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
