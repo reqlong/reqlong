@@ -1,3 +1,3 @@
-var posts=["posts/37773.html","posts/14743.html","posts/16107.html","posts/44097.html"];function toRandomPost(){
+var posts=["2024/uncategorized/14743/","2024/uncategorized/16107/","2024/uncategorized/44097/","2024/uncategorized/37773/"];function toRandomPost(){
     pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);
   };
