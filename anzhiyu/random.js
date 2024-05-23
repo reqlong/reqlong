@@ -1,3 +1,3 @@
-var posts=["2024/05/22/部署Harbor私有镜像仓库/","2024/05/20/hello-world/","2024/05/22/测试/"];function toRandomPost(){
+var posts=["posts/44097.html","posts/16107.html","posts/37773.html"];function toRandomPost(){
     pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);
   };
